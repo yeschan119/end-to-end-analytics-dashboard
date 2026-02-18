@@ -70,6 +70,67 @@ Each incident is:
 
 ### [Data Architecture](data-engineering.md)
 
+### Diagram
+
+```mermaid
+flowchart TB
+
+%% ---------------------------
+%% CLIENT LAYER
+%% ---------------------------
+subgraph Client Layer
+    A[Angular Application]
+end
+
+%% ---------------------------
+%% API LAYER
+%% ---------------------------
+subgraph API Layer
+    B[ASP.NET Core MVC]
+    C[Role-Based Filtering]
+    D[Analytics Abstraction Layer]
+end
+
+%% ---------------------------
+%% OLTP LAYER
+%% ---------------------------
+subgraph OLTP (Transactional)
+    E[(Incident Table)]
+    F[(IssueType Table)]
+    G[(User / Role)]
+    H[(Site / Location)]
+end
+
+%% ---------------------------
+%% ANALYTICS LAYER
+%% ---------------------------
+subgraph Analytics (Read Optimized)
+    I[(Partitioned Tables)]
+    J[(Composite Indexes)]
+    K[(Pre-Aggregated Views)]
+end
+
+%% ---------------------------
+%% WRITE PATH
+%% ---------------------------
+A -->|Create / Update Incident| B
+B -->|Transactional Write| E
+E --> I
+
+%% ---------------------------
+%% READ PATH
+%% ---------------------------
+A -->|Dashboard Request| B
+B --> C
+C --> D
+D --> K
+K --> J
+J --> I
+I -->|Aggregated Result| D
+D --> B
+B --> A
+```
+
 ---
 
 # 📊 Production Analytics Dashboard (My Ownership)
