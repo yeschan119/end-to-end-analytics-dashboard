@@ -144,8 +144,8 @@ B --> A
 
 # 📊 프로덕션 분석 대시보드 (단독 담당)
 
-Analytics 계층 전체를 단독 설계 및 구현하였습니다.
-일부 예제
+Analytics 계층 전체를 단독 설계 및 구현 - 일부 예제
+
 <img width="600" height="370" alt="Screenshot 2026-02-17 at 23 42 28" src="https://github.com/user-attachments/assets/ba9dc49a-9023-4aa5-a272-5f8668d0bd2e" />
 <img width="600" height="370" alt="Screenshot 2026-02-17 at 23 43 11" src="https://github.com/user-attachments/assets/9ea040e5-a170-46c8-bacb-ee900ad03c5e" />
 <img width="600" height="370" alt="Screenshot 2026-02-17 at 23 43 25" src="https://github.com/user-attachments/assets/45f9d29e-7aef-48fa-a0a1-e48a19630373" />
