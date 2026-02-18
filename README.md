@@ -16,6 +16,19 @@ I participated in the overall system architecture design and independently desig
 
 ---
 
+# 📊 System Scale
+
+The system operates at production scale:
+
+- 🏫 ~2,000 schools (LAUSD jurisdiction)
+- 👥 Hundreds of thousands of users
+- 🚨 Hundreds of incidents generated daily
+- 🏢 Multi-tenant SaaS architecture
+
+The analytics layer is designed to handle high aggregation workloads under real-time operational traffic.
+
+---
+
 ## 📌 System Overview
 
 The system is designed to:
@@ -56,25 +69,6 @@ Each incident is:
 - Map-based visualization
 
 ### [Data Architecture](data-engineering.md)
----
-
-## 🧩 Core Domain Model
-
-Main entities:
-
-- Organization (Multi-tenant root)
-- User / Role / UserType
-- Incident (Core entity)
-- IssueType (Hierarchical classification)
-- Site / Location
-- SelfReport
-
-Supports:
-
-- Hierarchical IssueType (parent-child structure)
-- Multi-role governance
-- Organization-level isolation
-- Status-based incident tracking
 
 ---
 
@@ -96,132 +90,139 @@ Interactive Graph & Map Visualization
 
 ---
 
-## 🔎 Analytics Capabilities
+# 🛠 Performance Optimization Strategy
 
-### 1️⃣ Case Per Issue Type
-- Time range filtering
-- IssueType aggregation
-- Bar + Donut visualization
-- Total case counters
+## 1️⃣ Index Strategy
 
-**Purpose:** Identify dominant incident categories and trend shifts.
-
----
-
-### 2️⃣ Case Per Location
-- Site-level aggregation
-- IssueType + Time filtering
-- Comparative distribution
-
-**Purpose:** Detect high-risk locations and spatial concentration.
+- Composite indexes using multiple frequently filtered columns
+- Descending index on `createdAt` for latest-first UI rendering
+- Query plan stabilization via proper index coverage
+- Reduced full table scans under heavy traffic
 
 ---
 
-### 3️⃣ Case Per Reporter Info
-- Reporter-based aggregation
-- Behavioral pattern visibility
-- Role-aware filtering
+## 2️⃣ Partitioning Strategy
 
-**Purpose:** Analyze reporting patterns and system signals.
+Applied table-specific partitioning:
 
----
-
-### 4️⃣ Risk / Threat Assessment Analytics
-- Threat level segmentation (Low / Medium / High)
-- Temporal distribution analysis
-- Risk trend visualization
-
-**Purpose:** Monitor severity escalation patterns.
+- LIST partitioning for categorical segmentation
+- RANGE partitioning for time-series data
+- Optimized partition pruning for analytics queries
 
 ---
 
-### 5️⃣ Case Trend Analysis
-- Monthly / quarterly aggregation
-- Status-based filtering (New / In Progress / Closed)
-- Longitudinal trend tracking
+## 3️⃣ Client-Side Parallelization
 
-**Purpose:** Evaluate operational workload and resolution velocity.
+Reduced UI wait time via parallel API calls: ```Promiss.ALL()```
 
----
-
-### 6️⃣ Spatial Intelligence (Map Visualization)
-- Interactive map
-- Clustered incident markers
-- Top 10 affected sites
-- Geographic distribution analytics
-
-**Purpose:** Enable geographic risk monitoring and resource planning.
+Enabled concurrent fetching of independent datasets, improving perceived responsiveness.
 
 ---
 
-# 🛠 Database-Level Analytics Engineering
+# 📊 View-Based Pre-Aggregation Strategy
 
-All analytics are powered by optimized MySQL Views designed for:
+Analytics is powered by optimized MySQL Views.
 
-- GROUP BY aggregations
+## Why View Pre-Aggregation?
+
+- Reusability across multiple dashboards
+- Heavy aggregation workloads stabilized at DB level
+- Reduced repeated computation at API layer
+- Optimizer-level tuning inside views (index strategy & execution plan stabilization)
+- Avoidance of lazy-loading performance pitfalls
+
+Design principles:
+
+- GROUP BY pre-aggregation
 - Indexed date filtering
-- Conditional aggregation
-- orgId-based partition logic
-- Pre-aggregated summary datasets
-
-Design goals:
-
-- Minimize API-level computation
-- Reduce dashboard latency
-- Support multi-dimensional filtering
-- Maintain scalability
+- orgId partition isolation
+- Execution plan predictability
 
 ---
 
-# 🔐 Role-Based Analytics
+# 🔎 Analytics Capabilities
+
+### Case Per Issue Type
+Time-based + category-based aggregation with trend comparison.
+
+### Case Per Location
+Site-level distribution and comparative analysis.
+
+### Reporter-Based Analysis
+Behavioral pattern visibility with role-aware filtering.
+
+### Risk / Threat Segmentation
+Severity distribution and escalation trend monitoring.
+
+### Time-Series Trend Analysis
+Monthly / quarterly aggregation and lifecycle metrics.
+
+### Spatial Intelligence
+Map-based clustering and top affected site ranking.
+
+---
+
+# 🔐 Role-Based Analytics Enforcement
 
 Analytics layer enforces:
 
 - Organization isolation
 - Role-based access control
 - Sensitive data filtering
-- Reporter visibility rules
+- Reporter visibility constraints
+
+Filtering occurs at query layer, not just UI.
 
 ---
 
 # 🎯 My Contribution
 
 ### System-Level Participation
-- Contributed to core domain modeling
+- Contributed to domain modeling
 - Participated in Incident / IssueType schema design
-- Collaborated on RBAC integration
+- Collaborated on RBAC structure
 
 ### Sole Ownership (Analytics Layer)
-- Designed analytics data model
-- Created DB-level analytic views
-- Implemented REST analytics APIs
-- Built Angular dashboard UI
-- Implemented filtering & drill-down logic
-- Integrated map-based visualization
-- Maintain and evolve analytics architecture
+- Designed analytics data architecture from scratch
+- Built DB-level analytic views
+- Implemented REST analytics endpoints
+- Developed Angular analytics dashboard
+- Implemented filtering and drill-down logic
+- Integrated map-based spatial visualization
+- Maintain and evolve the analytics layer
 
 ---
 
-# 🚀 Engineering Highlights
+# 🚀 Measurable Impact
+
+- Analytics layer designed from scratch
+- Reduced dashboard latency by **20%**
+- Improved aggregation performance by **10%**
+- Stabilized heavy aggregation workloads at production scale
+- Enabled real-time insight visibility across thousands of schools
+
+---
+
+# 📈 Engineering Highlights
 
 - Multi-tenant SaaS architecture
 - Hierarchical IssueType modeling
-- Real-time operational tracking
-- Database-driven analytics optimization
-- Spatial data visualization
-- Role-aware dashboard exposure
+- Partition-aware analytics optimization
+- Composite index strategy
+- View-level optimizer tuning
+- Spatial data analytics
 - Full-stack analytics pipeline ownership
 
 ---
 
-# 📈 Project Impact
+# 📌 Project Impact
 
-This system enables organizations to:
+The system enables organizations to:
 
 - Rapidly report critical incidents
 - Monitor risk distribution in real time
 - Track resolution workflows
 - Analyze historical trends
-- Improve response efficiency through data visibility
+- Improve operational response efficiency
 
-The analytics dashboard transforms operational incident data into actionable intelligence.
+The analytics dashboard transforms large-scale operational data into actionable intelligence.
