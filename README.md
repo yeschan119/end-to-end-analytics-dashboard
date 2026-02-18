@@ -71,6 +71,7 @@ Each incident is:
 ### [Data Architecture](data-engineering.md)
 
 ### Diagram
+<img width="1024" height="1024" alt="ims" src="https://github.com/user-attachments/assets/246a0821-a363-40ad-9cbb-2f3114932725" />
 
 ```mermaid
 flowchart TB
