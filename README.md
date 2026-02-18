@@ -75,33 +75,60 @@ Each incident is:
 ```mermaid
 flowchart TB
 
+%% ---------------------
+%% CLIENT LAYER
+%% ---------------------
 subgraph Client_Layer
     A[Angular Application]
 end
 
+%% ---------------------
+%% API LAYER
+%% ---------------------
 subgraph API_Layer
     B[ASP.NET Core MVC]
     C[Role Based Filtering]
     D[Analytics Abstraction Layer]
 end
 
+%% ---------------------
+%% OLTP LAYER
+%% ---------------------
 subgraph OLTP_Transactional
+    O[(Organization Table)]
     E[(Incident Table)]
     F[(IssueType Table)]
-    G[(User / Role)]
-    H[(Site / Location)]
+    G[(User / Role Table)]
+    H[(Site Table)]
 end
 
+%% ---------------------
+%% ANALYTICS LAYER
+%% ---------------------
 subgraph Analytics_Read_Optimized
     I[(Partitioned Tables)]
     J[(Composite Indexes)]
     K[(Pre Aggregated Views)]
 end
 
-A -->|Create / Update Incident| B
+%% ---------------------
+%% WRITE PATH - INCIDENT CRUD
+%% ---------------------
+A -->|Create Incident| B
+A -->|Update Incident| B
+A -->|Delete Incident| B
+
 B -->|Transactional Write| E
+E --> O
+E --> F
+E --> G
+E --> H
+
 E --> I
 
+%% ---------------------
+%% READ PATH - DASHBOARD
+%% ---------------------
 A -->|Dashboard Request| B
 B --> C
 C --> D
