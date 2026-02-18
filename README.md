@@ -1,6 +1,8 @@
 # Incident Management System
 ### Multi-Tenant Real-Time Reporting & Advanced Analytics Platform
 
+[한국어 🇰🇷](README.Ko.md)
+
 This project is a cloud-based Incident Management System built using:
 
 - AWS RDS (MySQL)
