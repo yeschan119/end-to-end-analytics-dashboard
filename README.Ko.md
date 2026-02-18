@@ -71,6 +71,75 @@ Analytics 계층은 실시간 트래픽 환경에서 고집계(High Aggregation)
 
 ### [Data Architecture](data-engineering.md)
 
+### Diagram
+```mermaid
+flowchart TB
+
+%% ---------------------
+%% CLIENT LAYER
+%% ---------------------
+subgraph Client_Layer
+    A[Angular Application]
+end
+
+%% ---------------------
+%% API LAYER
+%% ---------------------
+subgraph API_Layer
+    B[ASP.NET Core MVC]
+    C[Role Based Filtering]
+    D[Analytics Abstraction Layer]
+end
+
+%% ---------------------
+%% OLTP LAYER
+%% ---------------------
+subgraph OLTP_Transactional
+    O[(Organization Table)]
+    E[(Incident Table)]
+    F[(IssueType Table)]
+    G[(User / Role Table)]
+    H[(Site Table)]
+end
+
+%% ---------------------
+%% ANALYTICS LAYER
+%% ---------------------
+subgraph Analytics_Read_Optimized
+    I[(Partitioned Tables)]
+    J[(Composite Indexes)]
+    K[(Pre Aggregated Views)]
+end
+
+%% ---------------------
+%% WRITE PATH - INCIDENT CRUD
+%% ---------------------
+A -->|Create Incident| B
+A -->|Update Incident| B
+A -->|Delete Incident| B
+
+B -->|Transactional Write| E
+E --> O
+E --> F
+E --> G
+E --> H
+
+E --> I
+
+%% ---------------------
+%% READ PATH - DASHBOARD
+%% ---------------------
+A -->|Dashboard Request| B
+B --> C
+C --> D
+D --> K
+K --> J
+J --> I
+I -->|Aggregated Result| D
+D --> B
+B --> A
+```
+
 ---
 
 # 📊 프로덕션 분석 대시보드 (단독 담당)
