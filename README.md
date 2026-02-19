@@ -29,7 +29,7 @@ The analytics layer is designed to handle high aggregation workloads under real-
 
 ---
 
-## 📌 System Overview
+## System Overview
 
 The system is designed to:
 
@@ -49,7 +49,7 @@ Each incident is:
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 ### Infrastructure
 - AWS RDS (MySQL)
@@ -143,7 +143,7 @@ B --> A
 
 ---
 
-# 📊 Production Analytics Dashboard (My Ownership)
+# Production Analytics Dashboard (My Ownership)
 
 I independently designed and implemented the entire analytics layer.
 
@@ -214,7 +214,7 @@ Design principles:
 
 ---
 
-# 🔎 Analytics Capabilities
+# Analytics Capabilities
 
 ### Case Per Issue Type
 Time-based + category-based aggregation with trend comparison.
@@ -236,7 +236,7 @@ Map-based clustering and top affected site ranking.
 
 ---
 
-# 🔐 Role-Based Analytics Enforcement
+# Role-Based Analytics Enforcement
 
 Analytics layer enforces:
 
@@ -249,7 +249,7 @@ Filtering occurs at query layer, not just UI.
 
 ---
 
-# 🎯 My Contribution
+# My Contribution
 
 ### System-Level Participation
 - Contributed to domain modeling
@@ -267,7 +267,7 @@ Filtering occurs at query layer, not just UI.
 
 ---
 
-# 🚀 Measurable Impact
+# Measurable Impact
 
 - Analytics layer designed from scratch
 - Reduced dashboard latency by **20%**
@@ -289,7 +289,7 @@ Filtering occurs at query layer, not just UI.
 
 ---
 
-# 📌 Project Impact
+# Project Impact
 
 The system enables organizations to:
 
