@@ -16,7 +16,7 @@ AWS 기반으로 구축된 **멀티테넌트 SaaS Incident Management Platform**
 - 수천 개 기관 단위 확장 가능 구조
 
 저는 전체 시스템 설계에 참여했으며,  
-**End-to-End Analytics Dashboard를 단독 설계 및 구현**했습니다.
+**End-to-End Analytics Dashboard를 단독 설계 및 구현**.
 
 ---
 
