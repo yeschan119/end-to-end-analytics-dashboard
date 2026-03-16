@@ -1,7 +1,7 @@
 # Incident Management System  
 ### Multi-Tenant 기반 실시간 사고(사건) 보고 및 고급 분석 플랫폼
 
-[English 🇺🇸](README.md)
+[English 🇬🇧](README.en.md)
 
 ---
 
